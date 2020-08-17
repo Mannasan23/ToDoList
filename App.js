@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {Text, View} from 'react-native';
 import TaskScreen from './screens/TaskScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
