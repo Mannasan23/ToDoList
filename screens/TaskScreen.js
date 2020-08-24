@@ -1,16 +1,58 @@
 import * as React from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
-import firebase from 'firebase';
+import firebase, { database } from 'firebase';
 import db from '../Config';
+import {Header} from 'react-native-elements';
 
 export default class TaskScreen extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            task: '',
+            toDo: []
+        }
+    }
+
+    addTasks = ()=> {
+        var word = this.state.task.toLowerCase()
+        db.ref('tasks').push({
+            task: word,
+            status: 'pending'
+        })
+        this.setState({task: ''})
+    }
+
+    readTasks = ()=> {
+        var task = []
+        db.ref('tasks/').on("value", (data)=> {
+            var list = data.val()
+            for(var read in list) {
+                if(list[read].status == 'pending') {
+                    list[read].key = read
+                    task.push(list[read])
+                }
+            }
+            console.log(task)
+            this.setState({toDo: task})
+            task = []
+        })
+    }
+
+    componentDidMount() {
+        this.readTasks();
+    }
+
     render(){
         return(
             <View style= {styles.container}>
+                <Header
+                    centerComponent={{text: "To-Do List App", style: {color: 'blue', fontSize:25, fontWeight:"bold", width: 300}}}
+                />
                 <View style= {styles.buttonContainer}>
-                    <TextInput style= {styles.taskBox} placeholder= "Enter task" placeholderTextColor= "black">
+                    <TextInput style= {styles.taskBox} placeholder= "Enter task" placeholderTextColor= "black"
+                    onChangeText= {(text)=> this.setState({task: text})}>
                     </TextInput>
-                    <TouchableOpacity style= {styles.addButton}>
+                    <TouchableOpacity style= {styles.addButton} onPress= {this.addTasks}>
                         <Text style= {styles.buttonText}>Add</Text>
                     </TouchableOpacity>
                 </View>
@@ -28,7 +70,8 @@ const styles = StyleSheet.create({
     },
     buttonContainer:{
         flex:1,
-        alignItems:'center'
+        alignItems:'center',
+        flexDirection: 'row'
     },
     taskBox:{
         width: 300,
