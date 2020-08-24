@@ -6,7 +6,7 @@ export default class WelcomeScreen extends React.Component{
     render(){
         return(
             <View style={styles.container}>
-                 <Header style= {{marginBottom: 20}}
+                 <Header style= {{marginBottom: 30}}
                     centerComponent={{text: "To-Do List App", style: {color: 'blue', fontSize:25, fontWeight:"bold", width: 300}}}
                 />
                 <Image source= {require("../assets/notepad.png")} style= {{width: 200, height: 200}}></Image>
