@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         borderColor: 'orange',
         width: 100,
         height: 40,
-        fontWeight: 4,
+        fontWeight: "bold",
         borderRadius: 15,
         marginTop: 20
     },

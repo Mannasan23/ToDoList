@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import firebase, { database } from 'firebase';
 import db from '../Config';
 import {Header} from 'react-native-elements';
+import TaskButton from '../components/TaskButton';
 
 export default class TaskScreen extends React.Component{
     constructor(){
@@ -44,19 +45,34 @@ export default class TaskScreen extends React.Component{
 
     render(){
         return(
-            <View style= {styles.container}>
-                <Header
-                    centerComponent={{text: "To-Do List App", style: {color: 'blue', fontSize:25, fontWeight:"bold", width: 300}}}
-                />
-                <View style= {styles.buttonContainer}>
-                    <TextInput style= {styles.taskBox} placeholder= "Enter task" placeholderTextColor= "black"
-                    onChangeText= {(text)=> this.setState({task: text})}>
-                    </TextInput>
-                    <TouchableOpacity style= {styles.addButton} onPress= {this.addTasks}>
-                        <Text style= {styles.buttonText}>Add</Text>
-                    </TouchableOpacity>
+            <KeyboardAvoidingView>
+                <View style= {styles.container}>
+                    <Header
+                        centerComponent={{text: "To-Do List App", style: {color: 'blue', fontSize:25, fontWeight:"bold", width: 300}}}
+                    />
+                    <View style= {styles.buttonContainer}>
+                        <TextInput style= {styles.taskBox} placeholder= "Enter task" placeholderTextColor= "black"
+                        onChangeText= {(text)=> this.setState({task: text})}>
+                        </TextInput>
+                        <TouchableOpacity style= {styles.addButton} onPress= {this.addTasks}>
+                            <Text style= {styles.buttonText}>Add</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
+                <View>
+                {
+                this.state.task.map((item, index) => {
+                    console.log(item, index)
+                    return (
+                        <TaskButton
+                            wordChunk={this.state.task[index].task}
+                            buttonIndex={index}
+                            key={this.state.task[index].key}
+                        />
+                    )
+                })}
             </View>
+        </KeyboardAvoidingView>
         );
     }
 }
