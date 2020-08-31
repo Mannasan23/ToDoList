@@ -61,13 +61,13 @@ export default class TaskScreen extends React.Component{
                 </View>
                 <View>
                 {
-                this.state.task.map((item, index) => {
+                this.state.toDo.map((item, index) => {
                     console.log(item, index)
                     return (
                         <TaskButton
-                            wordChunk={this.state.task[index].task}
+                            wordChunk={this.state.toDo[index].task}
                             buttonIndex={index}
-                            key={this.state.task[index].key}
+                            key={this.state.toDo[index].key}
                         />
                     )
                 })}

@@ -12,7 +12,10 @@ export default class TaskButton extends React.Component {
     }
  
   resetDb = ()=> {
-    db.ref('tasks/' + this.props.key + '/')
+    db.ref('tasks/' + this.props.key + '/').update({
+      task: this.props.wordChunk,
+      status: 'done'
+    })
   }
 
   render() {
